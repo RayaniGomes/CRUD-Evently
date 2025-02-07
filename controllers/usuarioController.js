@@ -1,4 +1,3 @@
-const { get } = require('mongoose');
 const Usuario = require('../models/Usuario');
 
 // Criar um novo Usuario
@@ -65,4 +64,4 @@ const deleteUsuario = async (req, res) => {
     }
 };
 
-export { createUsuario, getUsuarios, updateUsuario, deleteUsuario, getUsuarioById };
+module.exports = { createUsuario, getUsuarios, updateUsuario, deleteUsuario, getUsuarioById };

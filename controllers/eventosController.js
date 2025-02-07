@@ -69,4 +69,4 @@ const deleteEvento = async (req, res) => {
   }
 };
 
-export { createEvento, getEventos, getEventoById, updateEvento, deleteEvento };
+module.exports = { createEvento, getEventos, getEventoById, updateEvento, deleteEvento };
