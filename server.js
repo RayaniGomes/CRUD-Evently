@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
-dotenv.config();
+require('dotenv').config();
 
-import express from 'express';
-import cors from 'cors';
-import connectDB from './config/database';
-import usuarioRoutes from './routes/usuarioRoutes';
-import eventoRoutes from './routes/eventoRoutes';
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/database');
+const usuarioRoutes = require('./routes/usuarioRoutes');
+const eventoRoutes = require('./routes/eventoRoutes');
 
 const app = express();
 
@@ -20,7 +19,7 @@ app.use('/', usuarioRoutes);
 app.use('/', eventoRoutes); 
 
 // Inicializar servidor
-const PORT = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
