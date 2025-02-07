@@ -1,0 +1,28 @@
+# Node.js modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Configuração do ambiente
+.env
+
+# Deploy (Render ou outros serviços de hosting)
+build/
+dist/
+
+# Outros arquivos desnecessários
+*.bak
+*.tmp
