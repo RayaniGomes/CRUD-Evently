@@ -20,7 +20,7 @@ app.use('/', usuarioRoutes);
 app.use('/', eventoRoutes); 
 
 // Inicializar servidor
-const PORT = process.env.MONGO_URI;
+const PORT = process.env.MONGODB_URI;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
