@@ -9,6 +9,7 @@ const usuarioRoutes = require('./routes/usuarioRoutes');   // Rotas de usuario
 const app = express();
 
 // Middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
 // Conectar ao banco de dados
