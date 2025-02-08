@@ -7,7 +7,8 @@ const createEvento = async (req, res) => {
     await novoEvento.save();
     res.status(201).json(novoEvento);
   } catch (err) {
-    res.status(500).json({ error: "Erro ao criar evento" });
+    console.error("Erro ao criar evento:", err);
+    res.status(500).json({ error: "Erro ao criar evento", details: err.message });
   }
 };
 
@@ -23,19 +24,19 @@ const getEventos = async (req, res) => {
 
 //Mostrar evento por ID
 const getEventoById = async (req, res) => {
-  try {
-    // O ID é passado na URL como parâmetro
-    const { id } = req.params;
+  const { id } = req.params;
 
-    // Busca o evento no banco de dados usando o id
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "ID inválido" });
+  }
+
+  try {
     const evento = await Evento.findById(id);
 
-    // Se o evento não for encontrado, retorna um erro 404
     if (!evento) {
       return res.status(404).json({ message: "Evento não encontrado" });
     }
 
-    // Se encontrado, retorna o evento
     res.status(200).json(evento);
   } catch (err) {
     console.error("Erro ao buscar evento por ID:", err);
@@ -49,8 +50,9 @@ const updateEvento = async (req, res) => {
     const eventoAtualizado = await Evento.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).json(eventoAtualizado);
   } catch (err) {
-    res.status(500).json({ error: "Erro ao atualizar evento" });
-  }
+    console.error("Erro ao atualizar evento:", err);
+    res.status(500).json({ error: "Erro ao atualizar evento", details: err.message });
+  }  
 };
 
 // Deletar evento por ID
