@@ -4,9 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest",
-    "build": "npm install && npm run build:custom", 
-    "build:custom": "echo 'Build custom script here'"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

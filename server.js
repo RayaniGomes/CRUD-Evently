@@ -3,8 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors')
 const connectDB = require('./config/database');
-const eventoRoutes = require('./routes/eventoRoutes'); // Rotas de funcionários
-const usuarioRoutes = require('./routesusuariotRoutes');   // Rotas de projetos
+const eventoRoutes = require('./routes/eventoRoutes'); // Rotas de evento
+const usuarioRoutes = require('./routes/usuarioRoutes');   // Rotas de usuario
 
 const app = express();
 
@@ -15,11 +15,11 @@ app.use(cors())
 connectDB();
 
 // Rotas
-app.use('/', eventoRoutes);  // Prefixo para as rotas de funcionários
-app.use('/', usuarioRoutes);   // Prefixo para as rotas de projetos
+app.use('/', eventoRoutes);  // Prefixo para as rotas de evento
+app.use('/', usuarioRoutes);   // Prefixo para as rotas de usuario
 
 // Inicializar servidor
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
