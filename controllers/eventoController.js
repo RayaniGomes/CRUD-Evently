@@ -1,4 +1,5 @@
 const Evento = require("../models/Evento");
+const mongoose = require('mongoose');
 
 // Criar um novo evento
 const createEvento = async (req, res) => {
@@ -24,23 +25,26 @@ const getEventos = async (req, res) => {
 
 //Mostrar evento por ID
 const getEventoById = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  // Verifica se o ID é um ObjectId válido do MongoDB
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ error: "ID inválido" });
   }
 
   try {
-    const evento = await Evento.findById(id);
+    // Tenta buscar o evento pelo ID
+    const evento = await Evento.findById(req.params.id);
 
+    // Se o evento não for encontrado, retorna um erro 404
     if (!evento) {
       return res.status(404).json({ message: "Evento não encontrado" });
     }
 
+    // Se o evento for encontrado, retorna o evento com status 200
     res.status(200).json(evento);
   } catch (err) {
+    // Registra o erro no console e retorna um erro 500
     console.error("Erro ao buscar evento por ID:", err);
-    res.status(500).json({ error: "Erro ao buscar evento" });
+    res.status(500).json({ error: "Erro interno ao buscar evento" });
   }
 };
 
