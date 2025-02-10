@@ -1,18 +1,9 @@
 const mongoose = require('mongoose');
-const Usuario = require('./Usuario');
+const { type } = require('os');
 
 const EventoSchema = new mongoose.Schema({
     nome: { type: String, required: true },
-    data: {
-        type: Date,
-        required: true,
-        set: (value) => {
-            // Tenta formatar a data no formato brasileiro 'dd/mm/yyyy'
-            const [day, month, year] = value.split('/');
-            // Retorna a data no formato 'yyyy-mm-dd'
-            return new Date(`${year}-${month}-${day}`);
-        }
-    },
+    data: { type: String, required: true },
     horario: { type: String, required: true },
     maxPessoas: { type: Number, required: true },
     tipo: { type: String, required: true },
