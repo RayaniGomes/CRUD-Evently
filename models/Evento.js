@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Usuario = require('./Usuario');
+const { type } = require('os');
 
 const EventoSchema = new mongoose.Schema({
     nome: { type: String, required: true },
