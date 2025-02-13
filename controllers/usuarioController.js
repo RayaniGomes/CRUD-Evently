@@ -7,7 +7,8 @@ const createUsuario = async (req, res) => {
         await novoUsuario.save();
         res.status(201).json(novoUsuario);
     } catch (err) {
-        res.status(500).json({ error: 'Erro ao criar usuario' });
+        console.error('Erro ao criar usuario:', err);
+        res.status(500).json({ error: 'Erro ao criar usuario', details: err.message });
     }
 };
 
@@ -23,12 +24,13 @@ const getUsuarios = async (req, res) => {
 
 //Mostrar usuario por ID
 const getUsuarioById = async (req, res) => {
-    try {
-        // O ID é passado na URL como parâmetro
-        const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({ error: 'ID inválido' });
+    }
 
+    try {
         // Busca o usuario no banco de dados usando o _id
-        const usuario = await Usuario.findById(id);
+        const usuario = await Usuario.findById(req.params.id);
 
         // Se o usuario não for encontrado, retorna um erro 404
         if (!usuario) {
@@ -50,7 +52,8 @@ const updateUsuario = async (req, res) => {
         const usuarioAtualizado = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(usuarioAtualizado);
     } catch (err) {
-        res.status(500).json({ error: 'Erro ao atualizar usuario' });
+        console.error('Erro ao atualizar usuario:', err);
+        res.status(500).json({ error: 'Erro ao atualizar usuario', details: err.message });
     }
 };
 
