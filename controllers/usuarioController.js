@@ -45,6 +45,29 @@ const getUsuarioById = async (req, res) => {
     }
 };
 
+const getUsuarioByEmail = async (req, res) => {
+    try {
+        const email = req.query.email;
+        console.log('Email recebido na requisição:', email); // Adiciona log
+
+        if (!email) {
+            return res.status(400).json({ error: 'O parâmetro email é obrigatório' });
+        }
+
+        const usuario = await Usuario.findOne({ email });
+        console.log('Usuário encontrado:', usuario); // Adiciona log para depuração
+
+        if (!usuario) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.status(200).json(usuario);
+    } catch (err) {
+        console.error('Erro ao buscar usuário por email:', err);
+        res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+};
+
 
 // Atualizar usuario por ID
 const updateUsuario = async (req, res) => {
@@ -67,4 +90,4 @@ const deleteUsuario = async (req, res) => {
     }
 };
 
-module.exports = { createUsuario, getUsuarios, updateUsuario, deleteUsuario, getUsuarioById };
+module.exports = { createUsuario, getUsuarios, getUsuarioByEmail, updateUsuario, deleteUsuario, getUsuarioById };
