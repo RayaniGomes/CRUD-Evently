@@ -3,6 +3,15 @@ const Usuario = require('../models/Usuario');
 // Criar um novo Usuario
 const createUsuario = async (req, res) => {
     try {
+        const email = req.body.email;
+        console.log('Email recebido na requisição:', email);
+        
+        const emailExists = await Usuario.findOne({ email });
+        console.log('Email exists:', emailExists);
+        if (emailExists) {
+            return res.status(400).json({ error: 'Email ja cadastrado' });
+        }
+
         const novoUsuario = new Usuario(req.body);
         await novoUsuario.save();
         res.status(201).json(novoUsuario);
@@ -48,7 +57,7 @@ const getUsuarioById = async (req, res) => {
 const getUsuarioByEmail = async (req, res) => {
     try {
         const email = req.query.email;
-        console.log('Email recebido na requisição:', email); // Adiciona log
+        console.log('Email recebido na requisição:', email);
 
         if (!email) {
             return res.status(400).json({ error: 'O parâmetro email é obrigatório' });
