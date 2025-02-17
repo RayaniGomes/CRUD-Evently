@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Usuario = require('../models/Usuario');
 
 // Criar um novo Usuario
@@ -24,7 +25,17 @@ const createUsuario = async (req, res) => {
 // Listar todos os usuarios
 const getUsuarios = async (req, res) => {
     try {
-        const usuarios = await Usuario.find();
+        const { nome } = req.query; // Obtém o parâmetro de consulta 'nome'
+
+        let usuarios;
+        if (nome) {
+            // Se o nome for fornecido, filtra os usuários pelo nome
+            usuarios = await Usuario.findOne({ nome: { $regex: nome, $options: 'i' } }); // 'i' para case insensitive
+        } else {
+            // Se não houver nome, retorna todos os usuários
+            usuarios = await Usuario.find();
+        }
+
         res.status(200).json(usuarios);
     } catch (err) {
         res.status(500).json({ error: 'Erro ao listar usuarios' });
