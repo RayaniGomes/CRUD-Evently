@@ -7,8 +7,14 @@ const UsuarioSchema = new mongoose.Schema({
     senha: { type: String, required: true },
     fotoPerfil: { type: String},
     criador: { type: Boolean, required: true },
-    eventos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Evento' }], 
-    minhasInscricoes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Evento' }]
+    eventos: {
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Evento'},
+        nome: { type: String}
+    },
+    minhasInscricoes: {
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Evento'},
+        nome: { type: String}
+    },
 });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);

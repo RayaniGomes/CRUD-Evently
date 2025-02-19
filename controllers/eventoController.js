@@ -15,14 +15,24 @@ const createEvento = async (req, res) => {
 
 // Listar todos os eventos
 const getEventos = async (req, res) => {
+  const { criador } = req.query; // Obtém o ID do criador a partir dos parâmetros de consulta
+
   try {
-    const eventos = await Evento.find();
+    let eventos;
+
+    if (criador) {
+      // Se o parâmetro criador estiver presente, filtra os eventos por criador
+      eventos = await Evento.find({ 'criador.id': criador }); // Ajuste conforme a estrutura do seu esquema
+    } else {
+      // Se não houver parâmetro, retorna todos os eventos
+      eventos = await Evento.find();
+    }
+
     res.status(200).json(eventos);
   } catch (err) {
     res.status(500).json({ error: "Erro ao listar eventos" });
   }
 };
-
 //Mostrar evento por ID
 const getEventoById = async (req, res) => {
   // Verifica se o ID é um ObjectId válido do MongoDB
