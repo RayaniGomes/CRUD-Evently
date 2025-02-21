@@ -15,24 +15,52 @@ const createEvento = async (req, res) => {
 
 // Listar todos os eventos
 const getEventos = async (req, res) => {
-  const { criador } = req.query; // Obtém o ID do criador a partir dos parâmetros de consulta
-
   try {
-    let eventos;
+    const { criador, data, cidade, uf, tipo, nome } = req.query;
 
+    let filtros = {};
+
+    // Filtra por criador, se fornecido
     if (criador) {
-      // Se o parâmetro criador estiver presente, filtra os eventos por criador
-      eventos = await Evento.find({ 'criador.id': criador }); // Ajuste conforme a estrutura do seu esquema
-    } else {
-      // Se não houver parâmetro, retorna todos os eventos
-      eventos = await Evento.find();
+      filtros["criador.id"] = criador;
     }
+
+    // Filtra por data (ajustando formato, se necessário)
+    if (data) {
+      const dataFormatada = data.replaceAll("/", "-"); // Ajuste conforme formato no banco
+      filtros.data = dataFormatada;
+    }
+
+    // Filtra por cidade (ignorando maiúsculas e minúsculas)
+    if (cidade) {
+      filtros.cidade = { $regex: new RegExp(cidade, "i") };
+    }
+
+    // Filtra por estado (UF)
+    if (uf) {
+      filtros.uf = { $regex: new RegExp(uf, "i") };
+    }
+
+    // Filtra por tipo de evento
+    if (tipo) {
+      filtros.tipo = { $regex: new RegExp(tipo, "i") };
+    }
+
+    // Filtra por nome (ignorando maiúsculas e minúsculas)
+    if (nome) {
+      filtros.nome = { $regex: new RegExp(nome, "i") };
+    }
+
+    // Busca eventos no banco de dados com os filtros aplicados
+    const eventos = await Evento.find(filtros);
 
     res.status(200).json(eventos);
   } catch (err) {
+    console.error("Erro ao listar eventos:", err);
     res.status(500).json({ error: "Erro ao listar eventos" });
   }
 };
+
 //Mostrar evento por ID
 const getEventoById = async (req, res) => {
   // Verifica se o ID é um ObjectId válido do MongoDB
