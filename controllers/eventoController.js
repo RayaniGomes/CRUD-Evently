@@ -88,8 +88,20 @@ const getEventoById = async (req, res) => {
 
 // Atualizar evento por ID
 const updateEvento = async (req, res) => {
+  const { id } = req.params;
+  const { criador, data, cidade, uf, tipo, nome, descricao, local, endereco, numero, bairro, imagem, inscritos, maxPessoas, complemento, horario } = req.body;
+
   try {
-    const eventoAtualizado = await Evento.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const eventoAtualizado = await Evento.findByIdAndUpdate(
+      id,
+      { criador, data, cidade, uf, tipo, nome, descricao, local, endereco, numero, bairro, imagem, inscritos, maxPessoas, complemento, horario },      
+      { new: true, runValidators: true }
+    );
+
+    if (!eventoAtualizado) {
+      return res.status(404).json({ error: "Evento nao encontrado" });
+    }
+
     res.status(200).json(eventoAtualizado);
   } catch (err) {
     console.error("Erro ao atualizar evento:", err);
