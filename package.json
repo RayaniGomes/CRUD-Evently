@@ -1,5 +1,5 @@
 {
-  "name": "crud-mongodb",
+  "name": "crud-evently",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
