@@ -1,26 +1,25 @@
-require('dotenv').config();
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/database");
 
-const express = require('express');
-const cors = require('cors')
-const connectDB = require('./config/database');
-const eventoRoutes = require('./routes/eventoRoutes'); // Rotas de evento
-const usuarioRoutes = require('./routes/usuarioRoutes');   // Rotas de usuario
+const eventoRoutes = require("./routes/eventoRoutes");
+const usuarioRoutes = require("./routes/usuarioRoutes");
+const inscricaoRoutes = require("./routes/inscricaoRoutes");
 
 const app = express();
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
+// 🛑 TEM QUE VIR ANTES DAS ROTAS!
 app.use(express.json());
-app.use(cors())
-// Conectar ao banco de dados
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
 connectDB();
 
-// Rotas
-app.use('/', eventoRoutes);  // Prefixo para as rotas de evento
-app.use('/', usuarioRoutes);   // Prefixo para as rotas de usuario
+// 🟢 Registra as rotas APÓS as middlewares
+app.use("/", eventoRoutes);
+app.use("/", usuarioRoutes);
+app.use("/", inscricaoRoutes);
 
-// Inicializar servidor
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
