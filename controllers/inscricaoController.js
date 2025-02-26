@@ -1,26 +1,15 @@
-const Inscricao = require("../models/inscricao");
+const Inscricao = require("../models/Inscricao");
 
 // Criar uma nova inscrição
 const createInscricao = async (req, res) => {
   try {
-    console.log("Headers recebidos:", req.headers);
-    console.log("Corpo recebido:", req.body);
-
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ error: "Corpo da requisição está vazio!" });
-    }
-
+    // Aqui você precisa extrair o 'evento' e 'inscritos' do req.body
     const { evento, inscritos } = req.body;
-
-    if (!evento || !evento.id || !inscritos || inscritos.length === 0) {
-      return res.status(400).json({ error: "Dados incompletos. Certifique-se de enviar evento e inscritos." });
-    }
 
     // Verificar se o usuário já está inscrito no evento
     const inscricaoExistente = await Inscricao.findOne({
       "evento.nome": evento.nome,
-      "inscritos.nome": { $in: inscritos.map(inscrito => inscrito.nome) },
-
+      "inscritos.nome": inscritos.nome,
     });
 
     if (inscricaoExistente) {
@@ -37,7 +26,6 @@ const createInscricao = async (req, res) => {
     res.status(500).json({ error: "Erro ao fazer a inscrição.", details: err.message });
   }
 };
-
 
 // Listar todas as inscrições (com filtro por nome)
 const getInscricao = async (req, res) => {
