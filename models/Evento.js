@@ -18,11 +18,7 @@ const EventoSchema = new mongoose.Schema({
     criador: {
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
         nome: { type: String }
-    },
-    inscritos: {
-        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
-        nome: { type: String }
-    },
+    }
 });
 
 module.exports = mongoose.model("Evento", EventoSchema);
