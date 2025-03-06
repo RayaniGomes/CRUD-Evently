@@ -15,6 +15,10 @@ const UsuarioSchema = new mongoose.Schema({
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Evento'},
         nome: { type: String}
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);

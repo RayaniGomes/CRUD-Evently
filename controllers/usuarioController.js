@@ -27,12 +27,12 @@ const createUsuario = async (req, res) => {
 // Listar todos os usuarios
 const getUsuarios = async (req, res) => {
   try {
-    const { nome } = req.query; // Obtém o parâmetro de consulta 'nome'
+    const { email } = req.query; // Obtém o parâmetro de consulta 'email'
 
     let usuarios;
-    if (nome) {
-      // Se o nome for fornecido, filtra os usuários pelo nome
-      usuarios = await Usuario.find({ nome: { $regex: nome, $options: "i" } }); // 'i' para case insensitive
+    if (email) {
+      // Se o email for fornecido, filtra os usuários pelo email
+      usuarios = await Usuario.find({ email: { $regex: email, $options: "i" } }); // 'i' para case insensitive
     } else {
       // Se não houver nome, retorna todos os usuários
       usuarios = await Usuario.find();

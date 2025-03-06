@@ -17,6 +17,11 @@ const InscricaoSchema = new mongoose.Schema({
     uf: { type: String, required: true },
     complemento: { type: String, default: "" },
     imagem: { type: String, default: "sem-imagem.svg" },
+    criador: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
+      nome: { type: String },
+      email: { type: String },
+    },
   },
   inscritos: {
     id: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },

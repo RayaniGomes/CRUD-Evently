@@ -17,8 +17,13 @@ const EventoSchema = new mongoose.Schema({
     imagem: { type: String, default: "sem-imagem.svg" },
     criador: {
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
-        nome: { type: String }
-    }
+        nome: { type: String },
+        email: { type: String }
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 module.exports = mongoose.model("Evento", EventoSchema);
